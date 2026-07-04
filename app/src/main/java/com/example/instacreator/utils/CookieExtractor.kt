@@ -6,10 +6,9 @@ import org.instagram4j.Instagram4j
 object CookieExtractor {
     fun extract(client: Instagram4j): Map<String, String> {
         val cookies = mutableMapOf<String, String>()
-        val httpClient = client.client.httpClient
-        val cookieJar = httpClient.cookieJar
+        // In 2.0.7, use `client.client.httpClient.cookieJar`
         val url = HttpUrl.parse("https://i.instagram.com")!!
-        cookieJar.loadForRequest(url).forEach { cookie ->
+        client.client.httpClient.cookieJar.loadForRequest(url).forEach { cookie ->
             when (cookie.name) {
                 "sessionid" -> cookies["sessionid"] = cookie.value
                 "csrftoken" -> cookies["csrftoken"] = cookie.value
