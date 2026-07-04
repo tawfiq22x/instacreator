@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "instacreator"
+rootProject.name = "SampleApp"
 include ':app'
