@@ -21,7 +21,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.2"   // compatible with Kotlin 1.9.0
+        kotlinCompilerExtensionVersion = "1.5.2"
     }
 
     compileOptions {
@@ -48,7 +48,7 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.0")
     implementation("androidx.room:room-ktx:2.6.0")
     
-    // The correct Maven Central version (Java 8 compatible)
+    // CORRECT dependency – Maven Central version
     implementation("com.github.instagram4j:instagram4j:2.0.7")
     
     implementation("com.google.android.gms:play-services-auth:20.7.0")
