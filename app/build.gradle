@@ -3,7 +3,12 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
 }
-
+// 👇 ADD THIS BLOCK
+repositories {
+    google()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
 android {
     namespace = "com.example.instacreator"
     compileSdk = 34
