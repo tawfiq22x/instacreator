@@ -11,7 +11,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        // JitPack is NOT needed anymore
+        // JitPack is NOT needed for 2.0.7
     }
 }
 
