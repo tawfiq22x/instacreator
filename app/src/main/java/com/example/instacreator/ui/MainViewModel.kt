@@ -60,7 +60,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 igClient = Instagram4j(username, password)
 
-                // Note: In 2.0.7, the API uses the `account()` method similarly
                 val signupResult = igClient!!.account()
                     .create(username, password, fullName, fixedPhone, fixedDob.first, fixedDob.second, fixedDob.third)
                     .execute()
