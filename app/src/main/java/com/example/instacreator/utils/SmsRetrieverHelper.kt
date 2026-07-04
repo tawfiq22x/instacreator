@@ -4,10 +4,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.telephony.SmsMessage
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.Status
-import com.google.android.gms.auth.api.phone.SmsRetriever.SmsMessage
 
 object SmsRetrieverHelper {
     private var smsBroadcastReceiver: SmsBroadcastReceiver? = null
@@ -22,7 +22,7 @@ object SmsRetrieverHelper {
             context.registerReceiver(receiver, IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION))
         }
         task.addOnFailureListener {
-            // fallback – user can enter OTP manually
+            // fallback
         }
     }
 
@@ -40,7 +40,7 @@ object SmsRetrieverHelper {
                         }
                     }
                     CommonStatusCodes.TIMEOUT -> {
-                        // show manual input dialog if needed
+                        // handle timeout
                     }
                 }
             }
