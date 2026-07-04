@@ -1,5 +1,6 @@
 package com.example.instacreator.utils
 
+import okhttp3.Cookie
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.instagram4j.Instagram4j
 
@@ -7,7 +8,8 @@ object CookieExtractor {
     fun extract(client: Instagram4j): Map<String, String> {
         val cookies = mutableMapOf<String, String>()
         val url = "https://i.instagram.com".toHttpUrl()
-        client.client.httpClient.cookieJar.loadForRequest(url).forEach { cookie ->
+        val cookieList = client.client.httpClient.cookieJar.loadForRequest(url)
+        for (cookie in cookieList) {
             when (cookie.name) {
                 "sessionid" -> cookies["sessionid"] = cookie.value
                 "csrftoken" -> cookies["csrftoken"] = cookie.value
