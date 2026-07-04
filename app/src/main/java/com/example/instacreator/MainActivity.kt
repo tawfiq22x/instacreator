@@ -98,7 +98,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
             Button(
                 onClick = {
                     val json = Gson().toJson(state.cookies)
-                    clipboard.setText(AnnotatedString(json))   // fixed type
+                    clipboard.setText(AnnotatedString(json))
                     Toast.makeText(context, "Cookies copied!", Toast.LENGTH_SHORT).show()
                 }
             ) {
