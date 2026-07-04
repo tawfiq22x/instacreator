@@ -30,10 +30,10 @@ object SmsRetrieverHelper {
         override fun onReceive(context: Context, intent: Intent) {
             if (SmsRetriever.SMS_RETRIEVED_ACTION == intent.action) {
                 val extras = intent.extras
-                val status = extras?.get(SmsRetriever.EXTRA_STATUS) as Status
-                when (status.statusCode) {
+                val status = extras?.get(SmsRetriever.EXTRA_STATUS) as? Status
+                when (status?.statusCode) {
                     CommonStatusCodes.SUCCESS -> {
-                        val message = extras.getParcelable<SmsMessage>(SmsRetriever.EXTRA_SMS_MESSAGE)
+                        val message = extras?.getParcelable(SmsRetriever.EXTRA_SMS_MESSAGE) as? SmsMessage
                         message?.messageBody?.let { sms ->
                             val otp = Regex("\\b\\d{6}\\b").find(sms)?.value
                             otp?.let { onOtpReceived(it) }
