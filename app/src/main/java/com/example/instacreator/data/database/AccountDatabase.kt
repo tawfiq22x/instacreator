@@ -1,12 +1,11 @@
 package com.example.instacreator.data.database
 
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import android.content.Context
-@Database(entities = [AccountEntity::class], version = 1, exportSchema = false)
 
-@Database(entities = [AccountEntity::class], version = 1)
+@Database(entities = [AccountEntity::class], version = 1, exportSchema = false)   // only one @Database
 abstract class AccountDatabase : RoomDatabase() {
     abstract fun accountDao(): AccountDao
 
