@@ -10,6 +10,7 @@ import com.example.instacreator.utils.SmsRetrieverHelper
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.instagram4j.Instagram4j
 import org.instagram4j.requests.payload.AccountCreateResponse
@@ -34,6 +35,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(UIState())
     val uiState = _uiState.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            accountDao.getAll().collect { accounts ->
+                _uiState.value = _uiState.value.copy(history = accounts)
+            }
+        }
+    }
+
     fun updateFullName(value: String) {
         _uiState.value = _uiState.value.copy(fullName = value)
     }
@@ -50,13 +59,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, statusMessage = "Creating account...")
             try {
-                igClient = Instagram4j(username, password).apply {
-                    setApi(org.instagram4j.Instagram4j.Api.MOBILE)
-                }
+                // Build the client with mobile API
+                igClient = Instagram4j.builder()
+                    .username(username)
+                    .password(password)
+                    .api(Instagram4j.Api.MOBILE)
+                    .build()
 
                 val signupResult = igClient!!.account()
                     .create(username, password, fullName, fixedPhone, fixedDob.first, fixedDob.second, fixedDob.third)
-                    .get()
+                    .execute()
 
                 when {
                     signupResult.status == "ok" -> onSuccess(signupResult)
@@ -70,7 +82,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private suspend fun onSuccess(result: AccountCreateResponse) {
-        igClient?.login()?.get()
+        igClient?.login()?.execute()
         val cookies = CookieExtractor.extract(igClient!!)
         saveAccount(_uiState.value.username, cookies)
         _uiState.value = _uiState.value.copy(
@@ -102,7 +114,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         try {
             val verifyResult = igClient?.account()
                 ?.verifyPhone(otp, fixedPhone)
-                ?.get()
+                ?.execute()
             if (verifyResult?.status == "ok") {
                 onSuccess(verifyResult)
             } else {
@@ -122,7 +134,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 timestamp = System.currentTimeMillis()
             )
             accountDao.insert(entity)
-            _uiState.value = _uiState.value.copy(history = accountDao.getAll())
+            // History will be updated automatically via Flow
         }
     }
 
