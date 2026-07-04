@@ -10,9 +10,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url = uri("https://jitpack.io") }   // ← Kotlin syntax
+        maven { url 'https://jitpack.io' }   // Groovy: single quotes, no uri()
     }
 }
-
 rootProject.name = "instacreator"
 include(":app")
