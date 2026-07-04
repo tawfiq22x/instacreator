@@ -37,8 +37,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(viewModel: MainViewModel = viewModel()) {
-    val state by viewModel.uiState.collectAsState()
+fun MainScreen(mainVM: MainViewModel = viewModel()) {
+    val state by mainVM.uiState.collectAsState()
     val context = LocalContext.current
     val clipboard = LocalClipboardManager.current
 
@@ -54,7 +54,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
 
         OutlinedTextField(
             value = state.fullName,
-            onValueChange = { viewModel.updateFullName(it) },
+            onValueChange = { mainVM.updateFullName(it) },
             label = { Text("Full Name") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -62,7 +62,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
 
         OutlinedTextField(
             value = state.username,
-            onValueChange = { viewModel.updateUsername(it) },
+            onValueChange = { mainVM.updateUsername(it) },
             label = { Text("Username") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -70,7 +70,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
 
         OutlinedTextField(
             value = state.password,
-            onValueChange = { viewModel.updatePassword(it) },
+            onValueChange = { mainVM.updatePassword(it) },
             label = { Text("Password") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
@@ -78,7 +78,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { viewModel.createAccount(state.fullName, state.username, state.password) },
+            onClick = { mainVM.createAccount(state.fullName, state.username, state.password) },
             enabled = !state.isLoading,
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -113,7 +113,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
         LazyColumn(modifier = Modifier.height(200.dp)) {
             items(state.history) { account ->
                 Text("${account.username} - ${Date(account.timestamp)}")
-                Divider()
+                HorizontalDivider()   // updated from deprecated `Divider()`
             }
         }
     }
