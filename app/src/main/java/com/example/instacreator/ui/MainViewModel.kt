@@ -10,7 +10,6 @@ import com.example.instacreator.utils.SmsRetrieverHelper
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.instagram4j.Instagram4j
 import org.instagram4j.requests.payload.AccountCreateResponse
@@ -59,13 +58,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, statusMessage = "Creating account...")
             try {
-                // Build the client with mobile API
-                igClient = Instagram4j.builder()
-                    .username(username)
-                    .password(password)
-                    .api(Instagram4j.Api.MOBILE)
-                    .build()
+                igClient = Instagram4j(username, password)
 
+                // Note: In 2.0.7, the API uses the `account()` method similarly
                 val signupResult = igClient!!.account()
                     .create(username, password, fullName, fixedPhone, fixedDob.first, fixedDob.second, fixedDob.third)
                     .execute()
@@ -134,7 +129,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 timestamp = System.currentTimeMillis()
             )
             accountDao.insert(entity)
-            // History will be updated automatically via Flow
         }
     }
 
