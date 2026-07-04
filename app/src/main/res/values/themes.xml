@@ -1,9 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.SampleApp" parent="Theme.Material3.DayNight">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <!-- Base application theme -->
+    <style name="Base.Theme.instacreator" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here -->
     </style>
 
-    <style name="Theme.SampleApp" parent="Base.Theme.SampleApp" />
+    <style name="Theme.instacreator" parent="Base.Theme.instacreator" />
 </resources>
